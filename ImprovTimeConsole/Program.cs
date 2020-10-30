@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 using ImprovTime;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans;
+using Orleans.Configuration;
 using Orleans.Hosting;
 
 namespace ImprovTimeConsole
@@ -21,7 +25,9 @@ namespace ImprovTimeConsole
                 .UseOrleans(builder => builder
                     .UseLocalhostClustering()
                     .ConfigureApplicationParts(_ => _.AddApplicationPart(typeof(RecordGrain).Assembly).WithReferences())
-                    .UseDashboard())
+                    .UseDashboard()
+                    .ConfigureEndpoints(EndpointOptions.DEFAULT_SILO_PORT, EndpointOptions.DEFAULT_GATEWAY_PORT, AddressFamily.InterNetwork, true )
+                    )
                 .ConfigureLogging(builder => builder
                     .AddFilter("Orleans.Runtime.Management.ManagementGrain", LogLevel.Warning)
                     .AddFilter("Orleans.Runtime.SiloControl", LogLevel.Warning)

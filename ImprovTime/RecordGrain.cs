@@ -32,7 +32,7 @@ namespace ImprovTime
 
         //private FasterKV<string, AttributeLog> _kv;
         
-
+        static object _lock = new object();
         public RecordGrain(ILogger<RecordGrain> logger)
         {
             _logger = logger;
@@ -46,8 +46,16 @@ namespace ImprovTime
             _serviceName = keyParts[0];
             _recordStart = DateTimeOffset.Parse(keyParts[1]);
             _metric = keyParts[2];
+            lock (_lock)
+            {
+                if (!Directory.Exists("./improv"))
+                {
+                    Directory.CreateDirectory("./improv");
+                }
+            }
+
             _database = new DatabaseBuilder()
-                .UseIODatabase(StringDBVersion.Latest, $"/users/mdurham/improv/{_serviceName}.{_metric}.{_recordStart.Ticks}.db", out var optimalTokenSource)
+                .UseIODatabase(StringDBVersion.Latest, $"./improv/{_serviceName}.{_metric}.{_recordStart.Ticks}.db", out var optimalTokenSource)
                 .WithBuffer(1000)
                 .WithTransform(StringDB.Transformers.StringTransformer.Default, StringDB.Transformers.NoneTransformer<byte[]>.Default);
             Console.WriteLine($"Starting {_serviceName} - {_recordStart:g} - {_metric}");

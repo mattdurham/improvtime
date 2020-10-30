@@ -12,26 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c25f283e-134d-4369-9eac-ee3c72cb7750" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Attr.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/AttrKey.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/AttributeLog.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Datum.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/IRecordGrain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/ImprovTime.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/LogEntry.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/IQueryGrain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/IQueryMapGrain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/Query.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/QueryGrain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/QueryMapGrain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/QueryResult.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/RecordQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Query/RecordQueryResult.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/Record.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTime/RecordGrain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ImprovTimeConsole/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ImprovTime/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ImprovTime/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImprovTime/RecordGrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ImprovTime/RecordGrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImprovTimeConsole/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ImprovTimeConsole/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +27,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5AED14D4-8F76-4E4F-80EB-584643057B28/152/SemaphoreSlim.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/149109F4-153D-4909-A946-28723C8B2597/3A/SocketAsyncEngine.Unix.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E0D947D2-A4EF-42C3-B7ED-673025413001/2/CoreHostingExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/C6663515-F1EC-4E78-BFF8-DF11F22F7BBE/4/HostingHostBuilderExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4E8DC1B5-A462-47DA-9128-B14E24EF463C/3f/9b9cbf27/FasterLog.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6F6296DE-1C71-4A10-8B3A-421FE3753A81/5a/ae3d1713/GrainProfilerFilter.cs" root0="SKIP_HIGHLIGHTING" />
@@ -79,8 +63,6 @@
         <option value="$PROJECT_DIR$/ImprovTimeConsole/appsettings.json" />
         <option value="$PROJECT_DIR$/ImprovTime/Committer.cs" />
         <option value="$PROJECT_DIR$/ImprovTime/ImprovDB.cs" />
-        <option value="$PROJECT_DIR$/ImprovTime/RecordGrain.cs" />
-        <option value="$PROJECT_DIR$/ImprovTimeConsole/Program.cs" />
         <option value="$PROJECT_DIR$/ImprovTime/Query/RecordQuery.cs" />
         <option value="$PROJECT_DIR$/ImprovTime/Query/IQueryMapGrain.cs" />
         <option value="$PROJECT_DIR$/ImprovTime/Query/Query.cs" />
@@ -88,11 +70,14 @@
         <option value="$PROJECT_DIR$/ImprovTime/Query/IQueryGrain.cs" />
         <option value="$PROJECT_DIR$/ImprovQuery/Query.cs" />
         <option value="$PROJECT_DIR$/ImprovQuery/Controllers/ImprovController.cs" />
-        <option value="$PROJECT_DIR$/ImprovTimeClient/Program.cs" />
         <option value="$PROJECT_DIR$/ImprovTime/Query/QueryGrain.cs" />
         <option value="$PROJECT_DIR$/ImprovQuery/Properties/launchSettings.json" />
         <option value="$PROJECT_DIR$/ImprovQuery/Startup.cs" />
         <option value="$PROJECT_DIR$/ImprovTime/Query/QueryMapGrain.cs" />
+        <option value="$PROJECT_DIR$/ImprovTimeConsole/Dockerfile" />
+        <option value="$PROJECT_DIR$/ImprovTimeClient/Program.cs" />
+        <option value="$PROJECT_DIR$/ImprovTimeConsole/Program.cs" />
+        <option value="$PROJECT_DIR$/ImprovTime/RecordGrain.cs" />
       </list>
     </option>
   </component>
@@ -105,8 +90,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34975636" />
-    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.29994586" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34987342" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.29974684" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -117,9 +102,10 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="Docker" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.ImprovTimeConsole">
+  <component name="RunManager" selected="Docker.Docker Debug">
     <configuration name="ImprovTime" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -157,9 +143,9 @@
       </method>
     </configuration>
     <configuration name="ImprovTimeConsole" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/ImprovTimeConsole/bin/Debug/netcoreapp3.1/ImprovTimeConsole.dll" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ImprovTimeConsole/bin/Debug/netcoreapp3.1" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -169,7 +155,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v3.1" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -204,6 +190,49 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="Docker Debug" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="improvserver" />
+          <option name="buildCliOptions" value="" />
+          <option name="command" value="" />
+          <option name="containerName" value="" />
+          <option name="contextFolderPath" value="." />
+          <option name="entrypoint" value="" />
+          <option name="portBindings">
+            <list>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="8080" />
+                <option name="hostPort" value="8080" />
+              </DockerPortBindingImpl>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="11111" />
+                <option name="hostPort" value="11111" />
+              </DockerPortBindingImpl>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="30000" />
+                <option name="hostPort" value="30000" />
+              </DockerPortBindingImpl>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="52144" />
+                <option name="hostPort" value="52144" />
+              </DockerPortBindingImpl>
+            </list>
+          </option>
+          <option name="commandLineOptions" value="" />
+          <option name="sourceFilePath" value="ImprovTimeConsole/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue=".NET Launch Settings Profile.ImprovQuery" />
+      <item itemvalue=".NET Launch Settings Profile.ImprovQuery: IIS Express" />
+      <item itemvalue=".NET Project.ImprovTime" />
+      <item itemvalue=".NET Project.ImprovTimeClient" />
+      <item itemvalue=".NET Project.ImprovTimeConsole" />
+      <item itemvalue="Docker.Docker Debug" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -214,13 +243,14 @@
       <option name="presentableId" value="Default" />
       <updated>1603829360554</updated>
       <workItem from="1603829363672" duration="22037000" />
+      <workItem from="1604093090832" duration="2369000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -232,98 +262,120 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2344" y="473" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603855433966">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state x="442" y="384" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604094489226">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state x="442" y="384" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2048.1280@0.0.2048.1280" timestamp="1604094489226" />
     <state x="2344" y="473" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.3840.1577@0.23.3840.1577" timestamp="1603855433966" />
     <state width="416" height="464" key="DebuggerActiveHint" timestamp="1603856975264">
       <screen x="0" y="23" width="3840" height="1577" />
     </state>
     <state width="416" height="464" key="DebuggerActiveHint/0.23.3840.1577@0.23.3840.1577" timestamp="1603856975264" />
-    <state width="1878" height="566" key="GridCell.Tab.0.bottom" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.0.bottom" timestamp="1604095361775">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.0.bottom/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361775" />
     <state width="1878" height="566" key="GridCell.Tab.0.bottom/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.0.center" timestamp="1603892581637">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.0.center" timestamp="1604095361774">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.0.center/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361774" />
     <state width="1878" height="566" key="GridCell.Tab.0.center/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581637" />
-    <state width="1878" height="566" key="GridCell.Tab.0.left" timestamp="1603892581637">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.0.left" timestamp="1604095361773">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.0.left/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361773" />
     <state width="1878" height="566" key="GridCell.Tab.0.left/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581637" />
-    <state width="1878" height="566" key="GridCell.Tab.0.right" timestamp="1603892581637">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.0.right" timestamp="1604095361774">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.0.right/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361774" />
     <state width="1878" height="566" key="GridCell.Tab.0.right/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581637" />
-    <state width="1878" height="566" key="GridCell.Tab.1.bottom" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.1.bottom" timestamp="1604095361776">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.1.bottom/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361776" />
     <state width="1878" height="566" key="GridCell.Tab.1.bottom/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.1.center" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.1.center" timestamp="1604095361775">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.1.center/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361775" />
     <state width="1878" height="566" key="GridCell.Tab.1.center/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.1.left" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.1.left" timestamp="1604095361775">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.1.left/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361775" />
     <state width="1878" height="566" key="GridCell.Tab.1.left/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.1.right" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.1.right" timestamp="1604095361775">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.1.right/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361775" />
     <state width="1878" height="566" key="GridCell.Tab.1.right/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.2.bottom" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.2.bottom" timestamp="1604095361776">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.2.bottom/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361776" />
     <state width="1878" height="566" key="GridCell.Tab.2.bottom/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
-    <state width="1878" height="566" key="GridCell.Tab.2.center" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.2.center" timestamp="1604095361776">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.2.center/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361776" />
     <state width="1878" height="566" key="GridCell.Tab.2.center/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.2.left" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.2.left" timestamp="1604095361776">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.2.left/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361776" />
     <state width="1878" height="566" key="GridCell.Tab.2.left/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.2.right" timestamp="1603892581638">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.2.right" timestamp="1604095361776">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.2.right/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361776" />
     <state width="1878" height="566" key="GridCell.Tab.2.right/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581638" />
-    <state width="1878" height="566" key="GridCell.Tab.3.bottom" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.3.bottom" timestamp="1604095361777">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.3.bottom/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361777" />
     <state width="1878" height="566" key="GridCell.Tab.3.bottom/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
-    <state width="1878" height="566" key="GridCell.Tab.3.center" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.3.center" timestamp="1604095361776">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.3.center/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361776" />
     <state width="1878" height="566" key="GridCell.Tab.3.center/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
-    <state width="1878" height="566" key="GridCell.Tab.3.left" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.3.left" timestamp="1604095361776">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.3.left/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361776" />
     <state width="1878" height="566" key="GridCell.Tab.3.left/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
-    <state width="1878" height="566" key="GridCell.Tab.3.right" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.3.right" timestamp="1604095361777">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.3.right/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361777" />
     <state width="1878" height="566" key="GridCell.Tab.3.right/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
-    <state width="1878" height="566" key="GridCell.Tab.4.bottom" timestamp="1603892581640">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.4.bottom" timestamp="1604095361777">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.4.bottom/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361777" />
     <state width="1878" height="566" key="GridCell.Tab.4.bottom/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581640" />
-    <state width="1878" height="566" key="GridCell.Tab.4.center" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.4.center" timestamp="1604095361777">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.4.center/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361777" />
     <state width="1878" height="566" key="GridCell.Tab.4.center/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
-    <state width="1878" height="566" key="GridCell.Tab.4.left" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.4.left" timestamp="1604095361777">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.4.left/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361777" />
     <state width="1878" height="566" key="GridCell.Tab.4.left/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
-    <state width="1878" height="566" key="GridCell.Tab.4.right" timestamp="1603892581639">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state width="2006" height="465" key="GridCell.Tab.4.right" timestamp="1604095361777">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state width="2006" height="465" key="GridCell.Tab.4.right/0.0.2048.1280@0.0.2048.1280" timestamp="1604095361777" />
     <state width="1878" height="566" key="GridCell.Tab.4.right/0.23.3840.1577@0.23.3840.1577" timestamp="1603892581639" />
     <state x="2480" y="550" key="Rider.ProjectTemplateDialog.Size" timestamp="1603854909386">
       <screen x="0" y="23" width="3840" height="1577" />
@@ -333,9 +385,18 @@
       <screen x="0" y="23" width="3840" height="1577" />
     </state>
     <state x="2614" y="442" key="RiderGenerateDialog/0.23.3840.1577@0.23.3840.1577" timestamp="1603833979834" />
-    <state x="2543" y="386" width="672" height="678" key="search.everywhere.popup" timestamp="1603855487675">
-      <screen x="0" y="23" width="3840" height="1577" />
+    <state x="220" y="156" key="SettingsEditor" timestamp="1604093972138">
+      <screen x="0" y="0" width="2048" height="1280" />
     </state>
+    <state x="220" y="156" key="SettingsEditor/0.0.2048.1280@0.0.2048.1280" timestamp="1604093972138" />
+    <state x="884" y="625" width="463" height="334" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize" timestamp="1604094487702">
+      <screen x="0" y="0" width="2048" height="1280" />
+    </state>
+    <state x="884" y="625" width="463" height="334" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize/0.0.2048.1280@0.0.2048.1280" timestamp="1604094487702" />
+    <state x="1356" y="295" width="672" height="551" key="search.everywhere.popup" timestamp="1604094366878">
+      <screen x="0" y="0" width="2048" height="1280" />
+    </state>
+    <state x="1356" y="295" width="672" height="551" key="search.everywhere.popup/0.0.2048.1280@0.0.2048.1280" timestamp="1604094366878" />
     <state x="2543" y="386" width="672" height="678" key="search.everywhere.popup/0.23.3840.1577@0.23.3840.1577" timestamp="1603855487675" />
   </component>
 </project>

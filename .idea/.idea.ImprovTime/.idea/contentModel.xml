@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$APPLICATION_CONFIG_DIR$/consoles/db" t="IncludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/extensions" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/JetBrains/Rider2020.2/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_ImprovTime.-761032396.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="ImprovQuery" t="IncludeRecursive">
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="ImprovController.cs" t="Include" />
+        </e>
+        <e p="ImprovQuery.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="ImprovQuery.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+        <e p="WeatherForecast.cs" t="Include" />
+      </e>
+      <e p="ImprovTime" t="IncludeRecursive">
+        <e p="Attr.cs" t="Include" />
+        <e p="AttributeLog.cs" t="Include" />
+        <e p="AttrKey.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Datum.cs" t="Include" />
+        <e p="ImprovTime.csproj" t="IncludeRecursive" />
+        <e p="IRecordGrain.cs" t="Include" />
+        <e p="LogEntry.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="ImprovTime.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Query" t="Include">
+          <e p="IQueryGrain.cs" t="Include" />
+          <e p="IQueryMapGrain.cs" t="Include" />
+          <e p="Query.cs" t="Include" />
+          <e p="QueryGrain.cs" t="Include" />
+          <e p="QueryMapGrain.cs" t="Include" />
+          <e p="QueryResult.cs" t="Include" />
+          <e p="RecordQuery.cs" t="Include" />
+          <e p="RecordQueryResult.cs" t="Include" />
+        </e>
+        <e p="Record.cs" t="Include" />
+        <e p="RecordGrain.cs" t="Include" />
+      </e>
+      <e p="ImprovTime.sln" t="IncludeFlat" />
+      <e p="ImprovTimeClient" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ImprovTimeClient.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="ImprovTimeClient.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="ImprovTimeConsole" t="IncludeRecursive">
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Dockerfile" t="Include" />
+        <e p="ImprovTimeConsole.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="ImprovTimeConsole.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

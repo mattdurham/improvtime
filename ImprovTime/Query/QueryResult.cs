@@ -6,7 +6,15 @@ namespace ImprovTime.Query
     public class QueryResult
     {
         public Query Query { get; set; }
+
+        public List<ResultRecord> Results { get; set; } =
+            new List<ResultRecord>();
+    }
+
+    public class ResultRecord
+    {
+        public DateTimeOffset Start { get; set; }
         
-        public Dictionary<DateTimeOffset, double> Results { get; set; } = new Dictionary<DateTimeOffset, double>();
+        public double Value { get; set; }
     }
 }

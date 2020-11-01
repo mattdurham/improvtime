@@ -1,20 +1,17 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using FASTER.core;
+using Google.Protobuf;
 using ImprovTime.Query;
 using Microsoft.Extensions.Logging;
-using Orleans;
-using Orleans.Configuration;
-using ProtoBuf;
-using StringDB;
-using StringDB.Fluency;
-using StringDB.IO;
+using Proto;
 
 
 namespace ImprovTime
 {
-    [CollectionAgeLimit(Days = 0,AlwaysActive = false,Hours = 0,Minutes = 5)]
-    public class RecordGrain : Grain , IRecordGrain
+    public class RecordGrain :  IActor
     {
         private ILogger<RecordGrain> _logger;
 
@@ -26,124 +23,91 @@ namespace ImprovTime
 
         private string _metric;
 
-        private IDatabase<string, byte[]> _database;
-        //private FasterLog _log;
-        //private AttributeLog _attrs = new AttributeLog();
-
         //private FasterKV<string, AttributeLog> _kv;
+        private FasterLog _log;
+        static readonly object _lock = new object();
         
-        static object _lock = new object();
         public RecordGrain(ILogger<RecordGrain> logger)
         {
             _logger = logger;
-        }
-
-        public override async Task OnActivateAsync()
-        {
-            string primaryKey = this.GetPrimaryKeyString();
+           
             
-            var keyParts = primaryKey.Split("!");
-            _serviceName = keyParts[0];
-            _recordStart = DateTimeOffset.Parse(keyParts[1]);
-            _metric = keyParts[2];
-            lock (_lock)
-            {
-                if (!Directory.Exists("./improv"))
-                {
-                    Directory.CreateDirectory("./improv");
-                }
-            }
-
-            _database = new DatabaseBuilder()
-                .UseIODatabase(StringDBVersion.Latest, $"./improv/{_serviceName}.{_metric}.{_recordStart.Ticks}.db", out var optimalTokenSource)
-                .WithBuffer(1000)
-                .WithTransform(StringDB.Transformers.StringTransformer.Default, StringDB.Transformers.NoneTransformer<byte[]>.Default);
-            Console.WriteLine($"Starting {_serviceName} - {_recordStart:g} - {_metric}");
-            await base.OnActivateAsync();
         }
 
+     
+/*
         public async override Task OnDeactivateAsync()
         {
             string primaryKey = this.GetPrimaryKeyString();
+            _log.Commit(true);
             Console.WriteLine($"Ending {_serviceName} - {_recordStart:g} - {_metric}");
             await base.OnDeactivateAsync();
-        }
-        
+        }*/
+
         public async Task AddRecord(Record record)
         {
             _recordCount++;
-            var offset = record.Time.Ticks - _recordStart.Ticks;
-            foreach(var kvp in record.Attributes)
+            var offset = (long) record.Time - _recordStart.Ticks;
+            foreach (var kvp in record.Attributes)
             {
                 var entry = new LogEntry()
                 {
                     Offset = (uint) offset,
-                    MetricValue = record.Value,
+                    MetricValue = record.Metricvalue,
                     KeyName = kvp.Key,
                     KeyValue = kvp.Value,
-                    RecordID = _recordCount
+                    RecordId = _recordCount
                 };
-                await using var mem = new MemoryStream();
-                Serializer.Serialize(mem, entry);
-                _database.Insert(entry.KeyName, mem.ToArray());
+                var bytes = entry.ToByteArray();
+                await _log.EnqueueAsync(bytes);
             }
 
-            if (_recordCount % 1_000 == 0)
+            if (_recordCount % 10_000 == 0)
             {
-                Console.WriteLine(_recordCount);
+                _log.Commit();
+                Console.WriteLine($"{_recordCount} {_recordStart.Ticks}");
             }
-            
+
         }
 
-        public Task<RecordQueryResult> RunQuery(RecordQuery query)
+        public async Task ReceiveAsync(IContext context)
         {
-            return null;
-            /*
-            var matchingRecords = new List<KeyValuePair<AttrKey, Attr>>();
+           var selfId = context.Self;
+           if (_serviceName == null)
+           {
+               var primaryKey = selfId.Id;
+               var keyParts = primaryKey.Split("!");
+               _serviceName = keyParts[0];
+               _recordStart = DateTimeOffset.Parse(keyParts[1]);
+               _metric = keyParts[2];
+               lock (_lock)
+               {
+                   if (!Directory.Exists("./improv"))
+                   {
+                       Directory.CreateDirectory("./improv");
+                   }
+               }
             
-            // Step 1 find all the records
-            foreach (var kvp in query.Attributes)
-            {
-                var foundRecord = _attrs.Where(x => x.Key.AttributeType == kvp.Key && x.Key.AttributeValue == kvp.Value);
-                matchingRecords.AddRange(foundRecord);
-            }
+               var device = Devices.CreateLogDevice($"./improv/{_serviceName}.{_metric}.{_recordStart.UtcTicks}/hlog.log");
+               _log = new FasterLog(new FasterLogSettings
+               {
+                   LogDevice = device,
+               });
+               context.SetReceiveTimeout(TimeSpan.FromSeconds(90));
+               Debug.WriteLine($"Starting {_serviceName} - {_recordStart:g} - {_metric}");
+           }
 
-            double sumAggregate = 0;
-            // Step 2 check sum aggregate
-            if (query.Aggregate == Aggregate.Count)
-            {
-                var uniqueIds = new HashSet<uint>();
-                matchingRecords.ForEach(x => x.Value.Datums.ForEach(d =>
-                {
-                    uniqueIds.Add(d.RecordID);
-                }));
-                return Task.FromResult( new RecordQueryResult
-                {
-                    Result = uniqueIds.Count,
-                    Source = query
-                });
-            }
-            
-            // Check for Sum aggregate
-            if(query.Aggregate == Aggregate.Sum)
-            {
-                var uniqueIds = new HashSet<uint>();
-                matchingRecords.ForEach(x => x.Value.Datums.ForEach(d =>
-                {
-                    if(uniqueIds.Add(d.RecordID))
-                    {
-                        sumAggregate += d.Value;
-                    }
-                }));
-                return Task.FromResult( new RecordQueryResult
-                {
-                    Result = sumAggregate,
-                    Source = query
-                });
-            }
-            return Task.FromResult<RecordQueryResult>(null);*/
+           if (context.Message is Record msg)
+           {
+               await AddRecord(msg);
+           }
+           else if (context.Message is ReceiveTimeout timeout)
+           {
+               _log.Commit(true);
+               Debug.WriteLine($"Committing and Stopping {_serviceName} - {_recordStart:g} - {_metric}");
+               context.Stop(context.Self);
+               _log = null;
+           }
         }
-        
-    
     }
 }

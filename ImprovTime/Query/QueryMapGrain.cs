@@ -1,24 +1,23 @@
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using Orleans;
-using Orleans.Concurrency;
-using ProtoBuf;
-using StringDB;
-using StringDB.Fluency;
-using StringDB.IO;
+using FASTER.core;
+using LightningDB;
+
 
 namespace ImprovTime.Query
 {
-    [StatelessWorker(1_000)]
-    public class QueryMapGrain : Grain, IQueryMapGrain
+    public class QueryMapGrain 
     {
         public async Task<RecordQueryResult> QueryIndividual(RecordQuery query)
         {
-            var f = $"/users/mdurham/improv/{query.ServiceName}.{query.MetricName}.{query.EntryMinute.Ticks}.db";
+            var ticks = query.EntryMinute.UtcDateTime.Ticks;
+            var f =
+                $"/Users/mdurham/Source/ImprovTime/ImprovTimeConsole/improv/{query.ServiceName}.{query.MetricName}.{ticks}/hlog.log";
             var fInfo = new FileInfo(f);
-            if (!fInfo.Exists)
+            if (!fInfo.Directory.Exists)
             {
                 return new RecordQueryResult()
                 {
@@ -26,76 +25,154 @@ namespace ImprovTime.Query
                     Source = query
                 };
             }
-            using var db  = new DatabaseBuilder()
-                .UseIODatabase(StringDBVersion.Latest,f , out var optimalTokenSource)
-                .AsReadOnly()
-                .WithBuffer(1000)
-                .WithTransform(StringDB.Transformers.StringTransformer.Default, StringDB.Transformers.NoneTransformer<byte[]>.Default);
-            var queryKeys = query.Attributes.Keys.ToList();
-            var logs = new List<LogEntry>();
-            foreach (var item in db.EnumerateOptimally(new OptimalTokenSource()))
+            var kvFile =
+                $"/Users/mdurham/Source/ImprovTime/ImprovTimeConsole/improv/{query.ServiceName}.{query.MetricName}.{ticks}.kv";
+
+            using var env = new LightningEnvironment(kvFile);
+            
+                env.MaxDatabases = 5;
+                env.Open();
+                using var tx = env.BeginTransaction();
+               
+            
+
+            
+            using var fasterKvDevice = Devices.CreateLogDevice(kvFile);
+            StringBuilder key = new StringBuilder();
+            key.Append(query.ServiceName);
+            key.Append(query.MetricName);
+            key.Append(query.EntryMinute.Ticks);
+            foreach (var kvp in query.Attributes)
             {
-                // This would be 'Verb'
-                if (queryKeys.Contains(item.Key))
+                key.Append(kvp.Name + ":" + kvp.Value + ";");
+            }
+
+            key.Append(query.Aggregate.ToString());
+            var keyBytes = UTF8Encoding.UTF8.GetBytes(key.ToString()); 
+            using (var db = tx.OpenDatabase("kv", new DatabaseConfiguration { Flags = DatabaseOpenFlags.Create }))
+            {
+                var result = tx.Get(db,keyBytes);
+                if (result.resultCode == MDBResultCode.Success)
                 {
-                    await using var m = new MemoryStream(item.Value);
-                    var entry = Serializer.Deserialize<LogEntry>(m);
-                    // This would ensure it was `GET` and falls within the timezone
-                    if (entry.KeyValue == query.Attributes[entry.KeyName] 
-                        && query.EntryMinute.AddTicks(entry.Offset) >= query.Start
-                        && query.EntryMinute.AddTicks(entry.Offset) <= query.End)
+                    // TODO look at using a span
+                    var value = BitConverter.ToDouble(result.value.CopyToNewArray(), 0); 
+                    return new RecordQueryResult()
                     {
-                        logs.Add(entry);
-                    }
+                        Result = value,
+                        Source = query
+                    };
                 }
-                else if (queryKeys.Count == 0)
+            }
+
+            
+            var device = Devices.CreateLogDevice(f);
+            var log = new FasterLog(new FasterLogSettings {LogDevice = device});
+            // Record Id and Count
+            double totalCount = 0;
+            double sumValue = 0;
+            using (var iter = log.Scan(log.BeginAddress, long.MaxValue))
+            {
+                var more = iter.GetNext(out byte[] result, out int entryLength, out long currentAddress,
+                    out long nextAddress);
+                var entry = LogEntry.Parser.ParseFrom(result);
+                var matchedAttributes = 0;
+                // Set out initial value of old to the same as entry
+                LogEntry oldEntry = entry;
+                while (more)
                 {
-                    await using var m = new MemoryStream(item.Value);
-                    var entry = Serializer.Deserialize<LogEntry>(m);
-                    if ( query.EntryMinute.AddTicks(entry.Offset) >= query.Start
-                        && query.EntryMinute.AddTicks(entry.Offset) <= query.End)
+                    if (entry.RecordId != oldEntry.RecordId)
                     {
-                        logs.Add(entry);
+                        if (matchedAttributes >= query.Attributes.Count)
+                        {
+                            totalCount++;
+                            sumValue += oldEntry.MetricValue;
+                        }
+                        // Reset matched attributes
+                        matchedAttributes = 0;
+                    }
+
+                    if (IsValid(entry, query))
+                    {
+                        matchedAttributes++;
+                    }
+
+                    more = iter.GetNext(out result, out entryLength, out currentAddress,
+                        out nextAddress);
+                    oldEntry = entry;
+                    if (more)
+                    {
+                        entry = LogEntry.Parser.ParseFrom(result);
                     }
 
                 }
             }
+
+
+
             
-            var allMatching = (
-                from x in logs 
-                group  x by x.RecordID into record 
-                select record);
             if (query.Aggregate == Aggregate.Count)
             {
-                // If there are more records by recordid than we asked for then we know it matches.
-                //    Note this is an implicit AND between attributes
-                var count = (from x in allMatching where x.Count() >= query.Attributes.Count select x.Key).Count();
+                SaveKV(tx, keyBytes, totalCount);
                 return new RecordQueryResult()
                 {
-                    Result = count,
+                    Result = totalCount,
                     Source = query
                 };
             }
 
             if (query.Aggregate == Aggregate.Sum)
             {
-                // If there are more records by recordid than we asked for then we know it matches.
-                //    Note this is an implicit AND between attributes
-                var matching = (from x in allMatching where x.Count() >= query.Attributes.Count select x.ToList());
-                double sum = 0;
-                // Overflow could get real fun here
-                foreach (var match in matching)
-                {
-                    sum += match.Sum(x => x.MetricValue);
-                }
+                SaveKV(tx, keyBytes, sumValue);
                 return new RecordQueryResult()
                 {
-                    Result = sum,
+                    Result = sumValue,
                     Source = query
                 };
             }
 
             return null;
         }
+
+        private void SaveKV(LightningTransaction tx, byte[] key, double value)
+        {
+            var byteValue = BitConverter.GetBytes(value);
+            using (var db = tx.OpenDatabase("kv", new DatabaseConfiguration { Flags = DatabaseOpenFlags.Create }))
+            {
+                tx.Put(db, key, byteValue);
+                tx.Commit();
+            }
+        }
+
+        private bool IsValid(LogEntry item,RecordQuery query)
+        {
+            if (query.Attributes.Count == 0)
+            {
+                if ( query.EntryMinute.AddTicks(item.Offset) >= query.Start
+                     && query.EntryMinute.AddTicks(item.Offset) <= query.End)
+                {
+                    return true;
+                }
+
+            }
+
+            
+
+            // Does the item match any of the queries, in this case it is an AND and case sensitive (probably should be case insensitive)
+            var found = query.Attributes.Any(x => x.Name == item.KeyName && x.Value == item.KeyValue);
+            // This would be 'Verb'
+            if (found)
+            {
+                
+                if (query.EntryMinute.AddTicks(item.Offset) >= query.Start
+                    && query.EntryMinute.AddTicks(item.Offset) <= query.End)
+                {
+                    return true;
+                }
+            }
+           
+            return false;
+        }
+        
+        
     }
 }

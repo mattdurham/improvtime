@@ -2,7 +2,6 @@
 using ImprovTime.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Orleans;
 
 namespace ImprovQuery.Controllers
 {
@@ -12,19 +11,18 @@ namespace ImprovQuery.Controllers
     {
      
         private readonly ILogger<ImprovController> _logger;
-        private IClusterClient _client;
 
-        public ImprovController(ILogger<ImprovController> logger, IClusterClient client)
+        public ImprovController(ILogger<ImprovController> logger)
         {
             _logger = logger;
-            _client = client;
+            
         }
 
         [HttpPost("query")]
         public async Task<QueryResult> Query([FromBody] Query q)
         {
-            var grain = _client.GetGrain<IQueryGrain>(0);
-            var result = await grain.Query(q);
+            var query = new QueryGrain();
+            var result = await query.Query(q);
             return result;
         }
     }

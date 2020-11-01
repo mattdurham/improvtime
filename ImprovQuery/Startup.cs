@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Orleans;
-using Orleans.Configuration;
 
 namespace ImprovQuery
 {
@@ -28,9 +19,7 @@ namespace ImprovQuery
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var client = ConnectClient().Result;
             services.AddControllers().AddNewtonsoftJson();
-            services.AddSingleton<IClusterClient>(client);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
@@ -64,22 +53,6 @@ namespace ImprovQuery
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
         
-        private static async Task<IClusterClient> ConnectClient()
-        {
-            IClusterClient client;
-            client = new ClientBuilder()
-                .UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "dev";
-                    options.ServiceId = "OrleansBasics";
-                })
-                .ConfigureLogging(logging => logging.AddConsole())
-                .Build();
-
-            await client.Connect();
-            Console.WriteLine("Client successfully connected to silo host \n");
-            return client;
-        }
+   
     }
 }

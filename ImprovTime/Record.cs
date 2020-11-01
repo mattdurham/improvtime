@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImprovTime
 {
-    public struct Record
+   /* public struct Record
     {
         public DateTimeOffset Time { get; set; }
         
@@ -14,5 +14,5 @@ namespace ImprovTime
         public double Value { get; set; }
         
         public string RecordName { get; set; }
-    }
+    }*/
 }

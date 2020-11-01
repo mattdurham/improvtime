@@ -5,7 +5,7 @@ namespace ImprovTime.Query
 {
     public class Query
     {
-        public Dictionary<string,string> Attributes = new Dictionary<string, string>();
+        public List<QueryableAttributes> Attributes { get; set; } = new List<QueryableAttributes>();
         
         public DateTimeOffset Start { get; set; }
         
@@ -16,5 +16,12 @@ namespace ImprovTime.Query
         public string Metric { get; set; }
         
         public string Service { get; set; }
+    }
+
+    public class QueryableAttributes
+    {
+        public string Name { get; set; }
+        
+        public string Value { get; set; }
     }
 }

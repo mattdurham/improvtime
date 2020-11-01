@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Net;
-using System.Net.Sockets;
+using System.IO;
 using System.Threading.Tasks;
 using ImprovTime;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Orleans;
-using Orleans.Configuration;
-using Orleans.Hosting;
+using Proto;
+using Proto.Mailbox;
+using Proto.Remote;
+
 
 namespace ImprovTimeConsole
 {
@@ -15,30 +16,47 @@ namespace ImprovTimeConsole
     {
         static async Task Main(string[] args)
         {
-            /*var log = Devices.CreateLogDevice(@"/users/mdurham/improv.log");
-            var store = new FasterKV<string, AttributeLog>(1L << 20, new LogSettings
+            var configuration = SetupConfiguration(args);
+            var services = RegisterServices(args);
+            
+            var system = new ActorSystem();
+            var serialization = new Serialization();
+            var context = new RootContext(system);
+            serialization.RegisterFileDescriptor(RecordReflection.Descriptor);
+            var props = Props.FromProducer(() => services.GetService<RecordGrain>())
+                .WithMailbox(() => BoundedMailbox.Create(2_000_000));
+            var remote = new Remote(system, new RemoteConfig()
             {
-                LogDevice = log,
-                ObjectLogDevice = log
-            });*/
-            await new HostBuilder()
-                .UseOrleans(builder => builder
-                    .UseLocalhostClustering()
-                    .ConfigureApplicationParts(_ => _.AddApplicationPart(typeof(RecordGrain).Assembly).WithReferences())
-                    .UseDashboard()
-                    .ConfigureEndpoints(EndpointOptions.DEFAULT_SILO_PORT, EndpointOptions.DEFAULT_GATEWAY_PORT, AddressFamily.InterNetwork, true )
-                    )
-                .ConfigureLogging(builder => builder
-                    .AddFilter("Orleans.Runtime.Management.ManagementGrain", LogLevel.Warning)
-                    .AddFilter("Orleans.Runtime.SiloControl", LogLevel.Warning)
-                    .AddConsole())
-                .ConfigureServices(s =>
-                {
-                    //s.AddSingleton(store);
-                    //s.AddSingleton(new Committer());
-
-                })
-                .RunConsoleAsync();
+                Serialization = serialization,
+                Host = "127.0.0.1",
+                Port = 8000,
+                RemoteKinds = { {"record", props}}
+            });
+            await remote.StartAsync();
+            Console.WriteLine("Server started");
+            Console.ReadLine();
+        }
+        
+        private static IConfiguration SetupConfiguration(string[] args)
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true)
+                .AddEnvironmentVariables()
+                .AddCommandLine(args)
+                .Build();
+        }
+        
+        private static ServiceProvider RegisterServices(string[] args)
+        {
+            IConfiguration configuration = SetupConfiguration(args);
+            var serviceCollection = new ServiceCollection();
+    
+            serviceCollection.AddSingleton(configuration);
+            serviceCollection.AddLogging(cfg => cfg.AddConsole());
+            serviceCollection.AddSingleton(configuration);
+            serviceCollection.AddTransient<RecordGrain>();
+            return serviceCollection.BuildServiceProvider();
         }
         
        

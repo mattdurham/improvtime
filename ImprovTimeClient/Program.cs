@@ -1,61 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Google.Protobuf.Collections;
 using ImprovTime;
-using Microsoft.Extensions.Logging;
-using Orleans;
-using Orleans.Configuration;
+using Proto;
+using Proto.Remote;
 
 namespace ImprovTimeClient
 {
     public class Program
     {
-        static int Main(string[] args)
+        static async Task Main(string[] args)
         {
-            return RunMainAsync().Result;
-        }
-
-        private static async Task<int> RunMainAsync()
-        {
-            try
+            var system = new ActorSystem();
+            var serialization = new Serialization();
+            serialization.RegisterFileDescriptor(RecordReflection.Descriptor);
+            var remote = new Remote(system, new RemoteConfig()
             {
-                using (var client = await ConnectClient())
-                {
-                    await DoClientWork(client);
-                    Console.ReadKey();
-                }
-
-                return 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"\nException while trying to run client: {e.Message}");
-                Console.WriteLine("Make sure the silo the client is trying to connect to is running.");
-                Console.WriteLine("\nPress any key to exit.");
-                Console.ReadKey();
-                return 1;
-            }
+                Serialization = serialization,
+                Host = "127.0.0.1",
+                Port = 0,
+            });
+            await remote.StartAsync();
+            var context = new RootContext(system, default);
+            await DoClientWork(remote, context);
         }
 
-        private static async Task<IClusterClient> ConnectClient()
-        {
-            IClusterClient client;
-            client = new ClientBuilder()
-                .UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "dev";
-                    options.ServiceId = "OrleansBasics";
-                })
-                .ConfigureLogging(logging => logging.AddConsole())
-                .Build();
-
-            await client.Connect();
-            Console.WriteLine("Client successfully connected to silo host \n");
-            return client;
-        }
-
-        private static async Task DoClientWork(IClusterClient client)
+     
+        
+        private static async Task DoClientWork(Remote client, IRootContext context)
         {
             var index = 0;
             var verbs = new List<string>()
@@ -65,29 +38,41 @@ namespace ImprovTimeClient
                 "Post"
             };
             var random = new Random();
-            
+            var lastKey = "";
+            PID pid = null;
+
             // example of calling grains from the initialized client
             while (true)
             {
-                index++;
-                if (index % 1_000 == 0)
-                {
-                    Console.WriteLine(index);
-                }
                 var currentTime = DateTimeOffset.Now.ToString("g");
                 var metric = "latency";
-                var record = client.GetGrain<IRecordGrain>($"test!{currentTime}!{metric}");
-                
-                await record.AddRecord(new Record()
+
+                var currentKey = $"test!{currentTime}!{metric}";
+                if (currentKey != lastKey)
                 {
-                    Attributes = new Dictionary<string, string>()
-                    {
-                        {"Verb", verbs[random.Next(0,2)]}
-                    },
+                    // This can be expensive
+                    var result = await client.SpawnNamedAsync("127.0.0.1:8000",currentKey, "record",
+                        TimeSpan.FromMinutes(30));
+                    pid = result.Pid;
+                    lastKey = currentKey;
+                }
+
+                index++;
+                if (index % 10_000 == 0)
+                {
+                    System.Threading.Thread.Sleep(100);
+                    Console.WriteLine(index);
+                }
+                
+                var r = new Record()
+                {
                     Service = "test",
-                    Time = DateTimeOffset.Now,
-                    Value = 10
-                });
+                    Time = (ulong)DateTimeOffset.Now.Ticks,
+                    Metricvalue = 10
+                };
+                r.Attributes.Add("Verb", verbs[random.Next(0, 3)]);
+                context.Send(pid,r);
+                
             }
         }
     }

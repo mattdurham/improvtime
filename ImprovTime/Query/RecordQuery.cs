@@ -5,7 +5,7 @@ namespace ImprovTime.Query
 {
     public class RecordQuery
     {
-        public Dictionary<string,string> Attributes = new Dictionary<string, string>();
+        public List<QueryableAttributes> Attributes = new List<QueryableAttributes>();
         
         public DateTimeOffset Start { get; set; }
         

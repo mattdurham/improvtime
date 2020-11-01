@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ImprovTime.Query
 {
+    /// <summary>
+    /// Handles the organization of queries.
+    /// </summary>
     public class QueryGrain 
     {
         
@@ -12,8 +15,9 @@ namespace ImprovTime.Query
         {
             // Need to determine the range of nodes to query
             var normalizedStart = new DateTimeOffset(q.Start.Year,q.Start.Month,q.Start.Day,q.Start.Hour,q.Start.Minute,0,new TimeSpan());
-            var tasks = new List<Task<RecordQueryResult>>();
+            
             var starts = new List<DateTimeOffset>();
+            // Slice the range into minute slices, this does mean our granularity is really 1 minute which is not ideal
             while (normalizedStart <= q.End)
             {
                 starts.Add(normalizedStart);

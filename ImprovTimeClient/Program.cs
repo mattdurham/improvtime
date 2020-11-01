@@ -41,7 +41,6 @@ namespace ImprovTimeClient
             var lastKey = "";
             PID pid = null;
 
-            // example of calling grains from the initialized client
             while (true)
             {
                 var currentTime = DateTimeOffset.Now.ToString("g");
@@ -60,6 +59,7 @@ namespace ImprovTimeClient
                 index++;
                 if (index % 10_000 == 0)
                 {
+                    // Add some breathing room for the server to catch up
                     System.Threading.Thread.Sleep(100);
                     Console.WriteLine(index);
                 }

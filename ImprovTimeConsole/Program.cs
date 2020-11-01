@@ -23,6 +23,7 @@ namespace ImprovTimeConsole
             var serialization = new Serialization();
             var context = new RootContext(system);
             serialization.RegisterFileDescriptor(RecordReflection.Descriptor);
+            // Limit our inbox to 2m entries, that seemed good to handle an inflow of 100k/s
             var props = Props.FromProducer(() => services.GetService<RecordGrain>())
                 .WithMailbox(() => BoundedMailbox.Create(2_000_000));
             var remote = new Remote(system, new RemoteConfig()
@@ -51,7 +52,6 @@ namespace ImprovTimeConsole
         {
             IConfiguration configuration = SetupConfiguration(args);
             var serviceCollection = new ServiceCollection();
-    
             serviceCollection.AddSingleton(configuration);
             serviceCollection.AddLogging(cfg => cfg.AddConsole());
             serviceCollection.AddSingleton(configuration);

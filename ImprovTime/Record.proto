@@ -1,0 +1,16 @@
+syntax = "proto3";
+message Record {   
+  uint64 time = 1;
+  string service = 2;
+  double metricvalue = 3;
+  string metricname = 4;
+  map<string, string> attributes = 5;
+}  
+
+message LogEntry {
+  string key_name = 1;
+  string key_value = 2;
+  double metric_value = 3;
+  uint32 record_id = 4;
+  uint32 offset = 5;
+}

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Google.Protobuf" Version="3.13.0" />
+      <PackageReference Include="Google.Protobuf.Tools" Version="3.13.0" />
+      <PackageReference Include="LightningDB" Version="0.13.0" />
+      <PackageReference Include="Microsoft.FASTER.Core" Version="1.7.4" />
+      <PackageReference Include="Proto.Actor" Version="0.9.0" />
+      <PackageReference Include="StringDB" Version="10.0.4" />
+    </ItemGroup>
+    <Target Name="protogen" BeforeTargets="BeforeBuild">
+        <Exec Command="protoc ./Record.proto --csharp_out=./Models" />
+    </Target>
+
+</Project>

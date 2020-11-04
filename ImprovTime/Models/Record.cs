@@ -26,14 +26,16 @@ public static partial class RecordReflection {
           "cnZpY2UYAiABKAkSEwoLbWV0cmljdmFsdWUYAyABKAESEgoKbWV0cmljbmFt",
           "ZRgEIAEoCRIrCgphdHRyaWJ1dGVzGAUgAygLMhcuUmVjb3JkLkF0dHJpYnV0",
           "ZXNFbnRyeRoxCg9BdHRyaWJ1dGVzRW50cnkSCwoDa2V5GAEgASgJEg0KBXZh",
-          "bHVlGAIgASgJOgI4ASJoCghMb2dFbnRyeRIQCghrZXlfbmFtZRgBIAEoCRIR",
-          "CglrZXlfdmFsdWUYAiABKAkSFAoMbWV0cmljX3ZhbHVlGAMgASgBEhEKCXJl",
-          "Y29yZF9pZBgEIAEoDRIOCgZvZmZzZXQYBSABKA1iBnByb3RvMw=="));
+          "bHVlGAIgASgJOgI4ASKlAQoITG9nRW50cnkSFAoMbWV0cmljX3ZhbHVlGAMg",
+          "ASgBEhEKCXJlY29yZF9pZBgEIAEoDRIOCgZvZmZzZXQYBSABKA0SLQoKYXR0",
+          "cmlidXRlcxgGIAMoCzIZLkxvZ0VudHJ5LkF0dHJpYnV0ZXNFbnRyeRoxCg9B",
+          "dHRyaWJ1dGVzRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4",
+          "AWIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::Record), global::Record.Parser, new[]{ "Time", "Service", "Metricvalue", "Metricname", "Attributes" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
-          new pbr::GeneratedClrTypeInfo(typeof(global::LogEntry), global::LogEntry.Parser, new[]{ "KeyName", "KeyValue", "MetricValue", "RecordId", "Offset" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::LogEntry), global::LogEntry.Parser, new[]{ "MetricValue", "RecordId", "Offset", "Attributes" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
         }));
   }
   #endregion
@@ -374,39 +376,16 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public LogEntry(LogEntry other) : this() {
-    keyName_ = other.keyName_;
-    keyValue_ = other.keyValue_;
     metricValue_ = other.metricValue_;
     recordId_ = other.recordId_;
     offset_ = other.offset_;
+    attributes_ = other.attributes_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public LogEntry Clone() {
     return new LogEntry(this);
-  }
-
-  /// <summary>Field number for the "key_name" field.</summary>
-  public const int KeyNameFieldNumber = 1;
-  private string keyName_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string KeyName {
-    get { return keyName_; }
-    set {
-      keyName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "key_value" field.</summary>
-  public const int KeyValueFieldNumber = 2;
-  private string keyValue_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public string KeyValue {
-    get { return keyValue_; }
-    set {
-      keyValue_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
   }
 
   /// <summary>Field number for the "metric_value" field.</summary>
@@ -442,6 +421,16 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
     }
   }
 
+  /// <summary>Field number for the "attributes" field.</summary>
+  public const int AttributesFieldNumber = 6;
+  private static readonly pbc::MapField<string, string>.Codec _map_attributes_codec
+      = new pbc::MapField<string, string>.Codec(pb::FieldCodec.ForString(10, ""), pb::FieldCodec.ForString(18, ""), 50);
+  private readonly pbc::MapField<string, string> attributes_ = new pbc::MapField<string, string>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::MapField<string, string> Attributes {
+    get { return attributes_; }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as LogEntry);
@@ -455,22 +444,20 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
     if (ReferenceEquals(other, this)) {
       return true;
     }
-    if (KeyName != other.KeyName) return false;
-    if (KeyValue != other.KeyValue) return false;
     if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(MetricValue, other.MetricValue)) return false;
     if (RecordId != other.RecordId) return false;
     if (Offset != other.Offset) return false;
+    if (!Attributes.Equals(other.Attributes)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
-    if (KeyName.Length != 0) hash ^= KeyName.GetHashCode();
-    if (KeyValue.Length != 0) hash ^= KeyValue.GetHashCode();
     if (MetricValue != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(MetricValue);
     if (RecordId != 0) hash ^= RecordId.GetHashCode();
     if (Offset != 0) hash ^= Offset.GetHashCode();
+    hash ^= Attributes.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -487,14 +474,6 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     output.WriteRawMessage(this);
   #else
-    if (KeyName.Length != 0) {
-      output.WriteRawTag(10);
-      output.WriteString(KeyName);
-    }
-    if (KeyValue.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(KeyValue);
-    }
     if (MetricValue != 0D) {
       output.WriteRawTag(25);
       output.WriteDouble(MetricValue);
@@ -507,6 +486,7 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
       output.WriteRawTag(40);
       output.WriteUInt32(Offset);
     }
+    attributes_.WriteTo(output, _map_attributes_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -516,14 +496,6 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-    if (KeyName.Length != 0) {
-      output.WriteRawTag(10);
-      output.WriteString(KeyName);
-    }
-    if (KeyValue.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(KeyValue);
-    }
     if (MetricValue != 0D) {
       output.WriteRawTag(25);
       output.WriteDouble(MetricValue);
@@ -536,6 +508,7 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
       output.WriteRawTag(40);
       output.WriteUInt32(Offset);
     }
+    attributes_.WriteTo(ref output, _map_attributes_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -545,12 +518,6 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
-    if (KeyName.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(KeyName);
-    }
-    if (KeyValue.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(KeyValue);
-    }
     if (MetricValue != 0D) {
       size += 1 + 8;
     }
@@ -560,6 +527,7 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
     if (Offset != 0) {
       size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Offset);
     }
+    size += attributes_.CalculateSize(_map_attributes_codec);
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -571,12 +539,6 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
     if (other == null) {
       return;
     }
-    if (other.KeyName.Length != 0) {
-      KeyName = other.KeyName;
-    }
-    if (other.KeyValue.Length != 0) {
-      KeyValue = other.KeyValue;
-    }
     if (other.MetricValue != 0D) {
       MetricValue = other.MetricValue;
     }
@@ -586,6 +548,7 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
     if (other.Offset != 0) {
       Offset = other.Offset;
     }
+    attributes_.Add(other.attributes_);
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -600,14 +563,6 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
-        case 10: {
-          KeyName = input.ReadString();
-          break;
-        }
-        case 18: {
-          KeyValue = input.ReadString();
-          break;
-        }
         case 25: {
           MetricValue = input.ReadDouble();
           break;
@@ -618,6 +573,10 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
         }
         case 40: {
           Offset = input.ReadUInt32();
+          break;
+        }
+        case 50: {
+          attributes_.AddEntriesFrom(input, _map_attributes_codec);
           break;
         }
       }
@@ -634,14 +593,6 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
           break;
-        case 10: {
-          KeyName = input.ReadString();
-          break;
-        }
-        case 18: {
-          KeyValue = input.ReadString();
-          break;
-        }
         case 25: {
           MetricValue = input.ReadDouble();
           break;
@@ -652,6 +603,10 @@ public sealed partial class LogEntry : pb::IMessage<LogEntry>
         }
         case 40: {
           Offset = input.ReadUInt32();
+          break;
+        }
+        case 50: {
+          attributes_.AddEntriesFrom(ref input, _map_attributes_codec);
           break;
         }
       }

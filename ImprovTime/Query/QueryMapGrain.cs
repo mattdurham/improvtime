@@ -79,36 +79,18 @@ namespace ImprovTime.Query
             {
                 var more = iter.GetNext(out byte[] result, out _, out _,
                     out _);
-                var entry = LogEntry.Parser.ParseFrom(result);
-                var matchedAttributes = 0;
-                // Set out initial value of old to the same as entry
-                LogEntry oldEntry = entry;
-                while (more)
-                {
-                    // Since the the actor ensures all logs for a given record are written contiguously on the file
-                    //    when the record changes we can see if it matches, could probably short circuit this too 
-                    if (entry.RecordId != oldEntry.RecordId)
-                    {
-                        // If we found more or equal (should really only ever be equal)
-                        //    then we know this record should count
-                        if (matchedAttributes >= query.Attributes.Count)
-                        {
-                            totalCount++;
-                            // TODO what about overflows?
-                            sumValue += oldEntry.MetricValue;
-                        }
-                        // Reset matched attributes for the next record
-                        matchedAttributes = 0;
-                    }
 
+                var entry = LogEntry.Parser.ParseFrom(result);
+                while (more)
+                { 
                     if (IsValid(entry, query))
                     {
-                        matchedAttributes++;
+                        totalCount++;
+                        // TODO what about overflows?
+                        sumValue += entry.MetricValue;
                     }
-
                     more = iter.GetNext(out result, out _, out _,
                         out _);
-                    oldEntry = entry;
                     // Only slam the next entry if we found one
                     if (more)
                     {
@@ -156,13 +138,11 @@ namespace ImprovTime.Query
             {
                 return true;
             }
-            
-            // Does the item match any of the queries, in this case it is an AND and case sensitive (probably should be case insensitive)
-            var found = query.Attributes.Any(x => x.Name == item.KeyName && x.Value == item.KeyValue);
-            // This would be 'Verb'
-            return found;
+
+            var matchedAttributes = (from x in query.Attributes
+                where item.Attributes.ContainsKey(x.Name) && item.Attributes[x.Name] == x.Value
+                select x).Count();
+            return matchedAttributes == query.Attributes.Count;
         }
-        
-        
     }
 }

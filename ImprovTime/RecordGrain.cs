@@ -39,39 +39,25 @@ namespace ImprovTime
 
         public async Task AddRecord(Record record)
         {
-            // Received a record so increment our counter, we right each attribute has a separate entry
-            //    and this allows us to group them
+            // Received a record so increment our counter, probably not needed, but if we want to ever know the
+            //    order that entries came in, as opposed to their time
             _recordCount++;
             // We don't need to store the whole time, just the offset from the start of the minute
-            var offset = (long) record.Time - _recordStart.Ticks;
+            var offset = (long) record.Time - _recordStart.UtcTicks;
             
-            // This is an all entry and every record gets this for querying by no attributes, or sending no attributes
-            var allEntry = new LogEntry()
+            var entry = new LogEntry()
             {
                 Offset = (uint) offset,
                 MetricValue = record.Metricvalue,
-                KeyName = "ALL",
-                KeyValue = "ALL",
-                RecordId = _recordCount
+                RecordId = _recordCount,
             };
-            var allBytes = allEntry.ToByteArray();
-            await _log.EnqueueAsync(allBytes);
-            // Generate an entry
-            //  For instance if something came in with {"Verb" : "Get", "Host", "ec21234.test.local"} Latency : 10
-            //  Then that would create two entries
-            foreach (var kvp in record.Attributes)
+            foreach (var attr in record.Attributes)
             {
-                var entry = new LogEntry()
-                {
-                    Offset = (uint) offset,
-                    MetricValue = record.Metricvalue,
-                    KeyName = kvp.Key,
-                    KeyValue = kvp.Value,
-                    RecordId = _recordCount
-                };
-                var bytes = entry.ToByteArray();
-                await _log.EnqueueAsync(bytes);
+                entry.Attributes.Add(attr.Key,attr.Value);    
             }
+            
+            var allBytes = entry.ToByteArray();
+            await _log.EnqueueAsync(allBytes);
             
             if (_recordCount % 10_000 == 0)
             {
